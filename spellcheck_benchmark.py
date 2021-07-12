@@ -3,6 +3,7 @@ import nlpaug.augmenter.word as naw
 import nlpaug.augmenter.sentence as nas
 from collections import defaultdict
 import json
+import ast
 
 import pkg_resources
 from symspellpy import SymSpell, Verbosity
@@ -71,20 +72,18 @@ def symspell_corrected_spellcheck(term):
 json_data = []
 queries = []
 
-with open('data/correct_queries.txt') as f:
-    content = f.readlines()
-content = [x.strip() for x in content]
-for item in content:
-    queries.append([item, item, 'CC'])
-
-with open('data/incorrect_queries.txt') as f:
+with open('data/queries.txt') as f:
     lines = f.readlines()
-    for line in lines:
-        temp = ''.join(line).split('@')
-        queries.append([temp[0], temp[1], 'IC'])
+    content = [x.strip() for x in lines]
+
+for line in content:
+    x = ast.literal_eval(line)
+    x = [n.strip() for n in x]
+
+    queries.append(x)
+
 
 # 2.) Loop through list of [from, to category] to calculate fp, fn, tn, tp, and precision, recall
-
 fp = 0.0
 fn = 0.0
 tn = 0.0
@@ -103,7 +102,7 @@ for query in queries:
     category = query[2]
     type = ""
 
-    new_query = textblob_corrected_spellcheck(from_query)
+    new_query = symspell_corrected_spellcheck(from_query)
 
     if (category == 'CC'):
         if (new_query == to_query): 
@@ -129,7 +128,7 @@ for query in queries:
                 not_fixed_list.append([from_query, new_query, to_query])
                 not_fixed += 1
     
-print ("textblob took", time.time() - start_time, "to run")
+print ("symspell took", time.time() - start_time, "to run")
 
 # 3.) Write to text files and output number fn, fp, tn, tp, not_fixed, precision, recall
 with open('true_negatives.txt', 'w') as f:
