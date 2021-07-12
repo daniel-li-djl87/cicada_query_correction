@@ -1,3 +1,4 @@
 data/
 *.txt
 *.json
+__pycache__/
