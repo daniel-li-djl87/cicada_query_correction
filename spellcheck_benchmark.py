@@ -72,7 +72,7 @@ def symspell_corrected_spellcheck(term):
 json_data = []
 queries = []
 
-with open('data/queries.txt') as f:
+with open('zoom_baseline_queries.txt') as f:
     lines = f.readlines()
     content = [x.strip() for x in lines]
 
@@ -131,23 +131,23 @@ for query in queries:
 print ("symspell took", time.time() - start_time, "to run")
 
 # 3.) Write to text files and output number fn, fp, tn, tp, not_fixed, precision, recall
-with open('true_negatives.txt', 'w') as f:
+with open('data/true_negatives.txt', 'w') as f:
     for item in tn_list:
         f.write("%s\n" % item)
 
-with open('false_positives.txt', 'w') as f:
+with open('data/false_positives.txt', 'w') as f:
     for item in fp_list:
         f.write("%s\n" % item)
 
-with open('true_positives.txt', 'w') as f:
+with open('data/true_positives.txt', 'w') as f:
     for item in tp_list:
         f.write("%s\n" % item)
 
-with open('false_negatives.txt', 'w') as f:
+with open('data/false_negatives.txt', 'w') as f:
     for item in fn_list:
         f.write("%s\n" % item)
 
-with open('not_fixed_list.txt', 'w') as f:
+with open('data/not_fixed_list.txt', 'w') as f:
     for item in not_fixed_list:
         f.write("%s\n" % item)
 
