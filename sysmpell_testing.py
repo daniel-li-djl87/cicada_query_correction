@@ -4,7 +4,7 @@ from symspellpy import SymSpell, Verbosity
 
 # 1.) Extract text elements from webcorpus json and write to txt file
 corpus_data = []
-corpus_text = ""
+corpus_text = "" 
 
 with open('data/webcorpus_zoom_webs_v2.json', 'r') as f:
     corpus_data.append(json.load(f))
