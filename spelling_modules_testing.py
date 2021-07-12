@@ -15,18 +15,18 @@ import re
 json_data = []
 queries = []
 
-# with open('data/asana_answer_quality_20210610.json', 'r') as f:
-#     json_data.append(json.load(f))
-# with open('data/asana_answer_quality_20210621.json', 'r') as f:
-#     json_data.append(json.load(f))
-# with open('data/asana_answer_quality.json', 'r') as f:
-#     json_data.append(json.load(f))
-# with open('data/zoom_faq.20210618.json', 'r') as f:
-#     json_data.append(json.load(f))
-# with open('data/zoom_faq.json', 'r') as f:
-#     json_data.append(json.load(f))
-# with open('data/temp.json', 'r') as f:
-#     json_data.append(json.load(f))
+with open('data/asana_answer_quality_20210610.json', 'r') as f:
+    json_data.append(json.load(f))
+with open('data/asana_answer_quality_20210621.json', 'r') as f:
+    json_data.append(json.load(f))
+with open('data/asana_answer_quality.json', 'r') as f:
+    json_data.append(json.load(f))
+with open('data/zoom_faq.20210618.json', 'r') as f:
+    json_data.append(json.load(f))
+with open('data/zoom_faq.json', 'r') as f:
+    json_data.append(json.load(f))
+with open('data/temp.json', 'r') as f:
+    json_data.append(json.load(f))
 
 for dict in json_data:
     for data in dict:

@@ -67,28 +67,12 @@ def symspell_corrected_spellcheck(term):
         word_count += 1
     return out_term
 
-# 1.) Parse through json files to gather queries
+# 1.) Parse through files to gather queries
 json_data = []
-queries = []
-
-# with open('data/asana_answer_quality_20210610.json', 'r') as f:
-#     json_data.append(json.load(f))
-# with open('data/asana_answer_quality_20210621.json', 'r') as f:
-#     json_data.append(json.load(f))
-# with open('data/asana_answer_quality.json', 'r') as f:
-#     json_data.append(json.load(f))
-# with open('data/zoom_faq.20210618.json', 'r') as f:
-#     json_data.append(json.load(f))
-# with open('data/zoom_faq.json', 'r') as f:
-#     json_data.append(json.load(f))
-# with open('data/temp.json', 'r') as f:
-#     json_data.append(json.load(f))
-
 queries = []
 
 with open('data/correct_queries.txt') as f:
     content = f.readlines()
-# you may also want to remove whitespace characters like `\n` at the end of each line
 content = [x.strip() for x in content]
 for item in content:
     queries.append([item, item, 'CC'])
@@ -99,42 +83,7 @@ with open('data/incorrect_queries.txt') as f:
         temp = ''.join(line).split('@')
         queries.append([temp[0], temp[1], 'IC'])
 
-# for dict in json_data:
-#     for data in dict:
-#         queries.append(data['query'])
-
-# sym_spell = SymSpell()
-# sym_spell.create_dictionary("data/zoom_corpus.txt")
-# typos = []
-
-# with open('data/queries.txt', 'w') as f:
-#     for query in queries:
-#         f.write("%s\n" % query.lower())
-
-# 2.) Use NLP Aug to generate CC and IC queries in a list --> [from, to category]
-# num_errors = 2
-# query_categories = []
-
-# for query in queries:
-
-#     # Generate CC queries
-#     query_categories.append([query.lower(), query.lower(), 'CC'])
-
-#     # Generate IC queries
-#     aug = nac.KeyboardAug()
-#     keyboard_typo = aug.augment(query, n=num_errors)
-#     for typo in keyboard_typo:
-#         query_categories.append([typo.lower() ,query.lower(), 'IC'])
-
-#     # Generate n number of spelling errored queries
-#     aug = naw.SpellingAug()
-#     spelling_typo = aug.augment(query, n=num_errors)
-#     for typo in spelling_typo:
-#         query_categories.append([typo.lower() ,query.lower(), 'IC'])
-
-# print(query_categories)
-
-# 3.) Loop through list of [from, to category] to calculate fp, fn, tn, tp, and precision, recall
+# 2.) Loop through list of [from, to category] to calculate fp, fn, tn, tp, and precision, recall
 
 fp = 0.0
 fn = 0.0
@@ -182,6 +131,7 @@ for query in queries:
     
 print ("textblob took", time.time() - start_time, "to run")
 
+# 3.) Write to text files and output number fn, fp, tn, tp, not_fixed, precision, recall
 with open('true_negatives.txt', 'w') as f:
     for item in tn_list:
         f.write("%s\n" % item)
@@ -207,8 +157,6 @@ print("false negatives: {}".format(fn))
 print("true negatives: {}".format(tn))
 print("true positives: {}".format(tp))
 print("not fixed: {}".format(not_fixed))
-
-# Thing with fn is that the error is found, but sometimes not always fixed
 print("precision: {}".format(tp/(tp + fp)))
 print("recall: {}".format(tp/(tp + fn)))
 
